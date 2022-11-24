@@ -1,0 +1,49 @@
+﻿@page "/articles/get"
+@inherits ArticlesBase
+
+@if(Articles == null)
+{
+    <h3>Loading articles...</h3>
+}
+else
+{
+    <h3 class="mb-5">Articles</h3>
+
+    var articlesCount = Articles.Count();
+
+    @if(articlesCount > 0)
+    {
+        const int itemsPerRow = 4;
+        var articlesRowList = new List<ArticleDetailedDTO>();
+
+        @for (var i = 0; i < articlesCount; i++)
+        {
+            articlesRowList = Articles.Skip(i * itemsPerRow).Take(itemsPerRow).ToList();
+
+            <div class="row mt-3">
+
+               @foreach (var item in articlesRowList)
+               {
+                   <div class="col-md-3 mb-2">
+                       <a href="#">
+                           <div class="card">
+                               <div class="card-body">
+                                   <h5 class="card-title mb-3">
+                                       @item.Title
+                                   </h5>
+                                   <p class="card-subtitle">
+                                       Опубликовано: @item.createdDate.ToString()
+                                   </p>
+                                   <p class="card-text">
+                                       <b>@item.Body</b>
+                                   </p>
+                               </div>
+                           </div>
+                       </a>
+                   </div>
+               }
+
+            </div>
+        }
+    }
+}
